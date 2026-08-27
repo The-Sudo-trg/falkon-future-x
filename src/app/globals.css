@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 224 71.4% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+
+    --primary: 155 69% 44%; /* brand.500 #1C9D4B */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 221.2 83.2% 53.3%; /* Blue #3b82f6 */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 38 92% 50%; /* Orange #f59e0b */
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 155 69% 44%; /* brand.500 */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%; /* ink.900 */
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 155 69% 44%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 221.2 83.2% 53.3%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 155 69% 44%;
+  }
+
+  body {
+    @apply antialiased font-sans;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .compact-row {
+    @apply py-2 px-3;
+  }
+
+  .dense-row {
+    @apply py-3 px-4;
+  }
+}
+
+@layer components {
+  /* Premium Mesh Grid Background */
+  .grid-bg-overlay {
+    background-image: 
+      linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
+  }
+
+  .radial-glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(120px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glassmorphism Redefined (Stripe / Linear Quality) */
+  .glass-navbar {
+    @apply bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm transition-all duration-300;
+  }
+
+  .glass-card-premium {
+    @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden;
+  }
+
+  .glass-card-premium::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .glass-hover-effect {
+    @apply hover:border-emerald-500/30 dark:hover:border-emerald-500/20 hover:bg-white/95 dark:hover:bg-slate-900/95 hover:-translate-y-0.5 transition-all duration-300;
+  }
+
+  /* Navigation Link styles */
+  .nav-link {
+    @apply text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 font-medium text-sm transition-all duration-200 relative py-1.5 px-3 rounded-lg hover:bg-slate-100/65 dark:hover:bg-slate-800/50;
+  }
+
+  .nav-link-active {
+    @apply text-emerald-600 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/30 font-semibold;
+  }
+
+  /* Premium Buttons */
+  .btn-premium-primary {
+    @apply relative inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-sm rounded-xl shadow-md hover:shadow-lg shadow-emerald-600/10 hover:shadow-emerald-500/20 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-emerald-500/50;
+  }
+
+  .btn-premium-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-semibold text-sm rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-slate-500/50;
+  }
+
+  /* Form Elements */
+  .premium-input {
+    @apply w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all duration-200 placeholder:text-slate-400;
+  }
+
+  .premium-label {
+    @apply block text-slate-700 dark:text-slate-300 font-medium text-xs mb-1.5 uppercase tracking-wider;
+  }
+
+  /* Section Styles */
+  .section-py {
+    @apply py-28;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-none;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-3xl leading-relaxed;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-50 dark:bg-slate-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 dark:bg-slate-800 rounded-full hover:bg-slate-300 dark:hover:bg-slate-700;
+  }
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.1); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 10s ease-in-out infinite;
+}
