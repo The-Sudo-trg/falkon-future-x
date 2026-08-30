@@ -5,13 +5,11 @@ import { PlatformProvider } from "@/lib/platform-context";
 import Sidebar from "@/components/platform/sidebar";
 import { usePlatform, UserRole } from "@/lib/platform-context";
 import { useRouter } from "next/navigation";
-import { useAuth, useUser, UserButton } from "@clerk/nextjs";
 import { Leaf, Loader2 } from "lucide-react";
 
 function PlatformShell({ children }: { children: React.ReactNode }) {
   const { userId, isLoading, clerkId, userName, logout } = usePlatform();
-  const { isSignedIn } = useAuth();
-  const { user } = useUser();
+  const isSignedIn = Boolean(clerkId);
 
   if (isLoading) {
     return (
@@ -35,7 +33,7 @@ function PlatformShell({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const displayName = user?.fullName || user?.firstName || userName || "User";
+  const displayName = userName || "User";
 
   return (
     <div className="min-h-screen bg-ink-0 text-ink-900 flex flex-col lg:flex-row relative font-sans">
@@ -55,23 +53,12 @@ function PlatformShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-ink-500 font-medium">{displayName}</span>
-            {isSignedIn ? (
-              <UserButton
-                afterSignOutUrl="/"
-                appearance={{
-                  elements: {
-                    avatarBox: "w-8 h-8",
-                  },
-                }}
-              />
-            ) : (
-              <button
-                onClick={logout}
-                className="text-ink-500 hover:text-down font-semibold transition-colors"
-              >
-                Logout
-              </button>
-            )}
+            <button
+              onClick={logout}
+              className="text-ink-500 hover:text-down font-semibold transition-colors"
+            >
+              {isSignedIn ? "Logout" : "Sign out"}
+            </button>
           </div>
         </div>
 

@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { usePlatform } from "@/lib/platform-context";
 import {
   FileText,
@@ -46,7 +44,8 @@ function formatFileSize(bytes: number) {
 }
 
 export default function PlatformDocuments() {
-  const { userId, projects, hasConvexUser } = usePlatform();
+  const { userId, projects } = usePlatform();
+  const [documents, setDocuments] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -54,15 +53,13 @@ export default function PlatformDocuments() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Convex queries
-  const documents = useQuery(
-    api.documents.getByUser,
-    hasConvexUser && userId ? { userId: userId as any } : "skip"
-  );
-
-  // Convex mutations
-  const uploadDoc = useMutation(api.documents.upload);
-  const removeDoc = useMutation(api.documents.remove);
+  const uploadDoc = async (document: any) => {
+    const newDocument = { ...document, _id: `doc-${Date.now()}`, createdAt: Date.now() };
+    setDocuments((current) => [newDocument, ...current]);
+  };
+  const removeDoc = async (documentId: string) => {
+    setDocuments((current) => current.filter((document) => document._id !== documentId));
+  };
 
   // Upload form state
   const [uploadForm, setUploadForm] = useState({
@@ -137,7 +134,7 @@ export default function PlatformDocuments() {
   const handleDelete = async (docId: string) => {
     if (!confirm("Delete this document?")) return;
     try {
-      await removeDoc({ documentId: docId as any });
+      await removeDoc(docId as string);
     } catch (error) {
       console.error("Delete failed:", error);
     }

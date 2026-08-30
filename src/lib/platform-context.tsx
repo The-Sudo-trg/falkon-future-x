@@ -159,21 +159,6 @@ const PlatformContext = createContext<PlatformContextType | undefined>(
   undefined
 );
 
-// Try loading Convex dynamically — fails gracefully if not deployed
-let convexApi: any = null;
-let convexAvailable = false;
-
-async function loadConvex() {
-  try {
-    const mod = await import("../../convex/_generated/api");
-    convexApi = mod.api;
-    convexAvailable = true;
-  } catch {
-    console.warn("Convex API not available — running in mock mode");
-    convexAvailable = false;
-  }
-}
-
 export function PlatformProvider({ children }: { children: React.ReactNode }) {
   const [clerkId, setClerkId] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -208,19 +193,7 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     },
   });
 
-  // Convex hooks (conditional)
-  const [convexHooks, setConvexHooks] = useState<any>(null);
-
   useEffect(() => {
-    loadConvex().then(() => {
-      if (convexAvailable && convexApi) {
-        import("convex/react").then(({ useQuery, useMutation }) => {
-          setConvexHooks({ useQuery, useMutation, api: convexApi });
-          setConvexReady(true);
-        });
-      }
-    });
-
     // Restore session from localStorage (cookie persistence)
     const savedClerkId = localStorage.getItem("ffx_clerkId");
     const savedRole = localStorage.getItem("ffx_role") as UserRole | null;

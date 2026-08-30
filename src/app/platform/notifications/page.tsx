@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { usePlatform } from "@/lib/platform-context";
 import {
   Bell,
@@ -14,25 +12,28 @@ import {
 } from "lucide-react";
 
 export default function PlatformNotifications() {
-  const { userId, hasConvexUser } = usePlatform();
-
-  const notifications = useQuery(
-    api.notifications.getByUser,
-    hasConvexUser && userId ? { userId: userId as any } : "skip"
-  );
-
-  const markRead = useMutation(api.notifications.markAsRead);
-  const markAllRead = useMutation(api.notifications.markAllAsRead);
+  const { userId, notifications: platformNotifications } = usePlatform();
+  const [readIds, setReadIds] = React.useState<Set<string>>(new Set());
+  const notifications = platformNotifications.map((notification: any) => ({
+    ...notification,
+    read: notification.read || readIds.has(notification._id),
+  }));
+  const markRead = async (notificationId: string) => {
+    setReadIds((current) => new Set(current).add(notificationId));
+  };
+  const markAllRead = async () => {
+    setReadIds(new Set(notifications.map((notification: any) => notification._id)));
+  };
 
   const unreadCount = (notifications || []).filter((n) => !n.read).length;
 
   const handleMarkAllRead = async () => {
     if (!userId) return;
-    await markAllRead({ userId: userId as any });
+    await markAllRead();
   };
 
   const handleMarkRead = async (notifId: string) => {
-    await markRead({ notificationId: notifId as any });
+    await markRead(notifId);
   };
 
   const getIcon = (type: string) => {
