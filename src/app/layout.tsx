@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProviderWrapper>
-      <html lang="en">
+      <html lang="en" className="bg-background">
         <body className="font-sans">{children}</body>
       </html>
     </ClerkProviderWrapper>

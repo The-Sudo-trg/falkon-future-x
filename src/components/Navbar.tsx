@@ -75,7 +75,7 @@ const Navbar = ({ investorMode, setInvestorMode }: NavbarProps) => {
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className="nav-link"
+className="nav-link cursor-pointer"
                 >
                   {item.label}
                 </button>

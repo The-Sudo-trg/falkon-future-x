@@ -4,18 +4,18 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePlatform, UserRole } from '@/lib/platform-context';
-import { 
-  LayoutDashboard, 
-  Folder, 
-  PlusCircle, 
-  Award, 
-  BarChart3, 
-  Coins, 
-  FileText, 
-  Bell, 
-  User, 
-  Leaf, 
-  Menu, 
+import {
+  LayoutDashboard,
+  Folder,
+  PlusCircle,
+  Award,
+  BarChart3,
+  Coins,
+  FileText,
+  Bell,
+  User,
+  Leaf,
+  Menu,
   X,
   Users,
   ShieldCheck
@@ -58,7 +58,7 @@ export default function Sidebar() {
           </div>
           <span className="font-extrabold tracking-wide bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent text-sm">CARBON REGISTRY</span>
         </div>
-        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 text-emerald-400 hover:text-white transition-colors">
+        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 text-emerald-400 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg">
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </header>
@@ -92,8 +92,8 @@ export default function Sidebar() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 ${
-                    isActive 
-                      ? 'bg-emerald-800/10 border border-emerald-500/30 text-emerald-400 shadow-md shadow-emerald-500/5' 
+                    isActive
+                      ? 'bg-emerald-800/10 border border-emerald-500/30 text-emerald-400 shadow-md shadow-emerald-500/5'
                       : 'hover:bg-slate-800/50 hover:text-white border border-transparent'
                   }`}
                 >
@@ -123,8 +123,8 @@ export default function Sidebar() {
           </div>
 
           <label className="block text-[9px] font-black uppercase tracking-widest text-slate-500 mb-1.5 text-left pl-1">Switch Sandbox Role</label>
-          <select 
-            value={role} 
+          <select
+            value={role}
             onChange={(e) => setRole(e.target.value as UserRole)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-800 text-slate-350 hover:text-white rounded-xl text-xs font-semibold focus:outline-none focus:border-emerald-500 transition-colors uppercase tracking-wide cursor-pointer"
           >
@@ -140,7 +140,7 @@ export default function Sidebar() {
 
       {/* Floating Overlay when mobile drawer is open */}
       {mobileMenuOpen && (
-        <div 
+        <div
           onClick={() => setMobileMenuOpen(false)}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 lg:hidden"
         />
